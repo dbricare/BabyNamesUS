@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Baby Names in the U.S.</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="{{ url_for('static',filename='css/bootstrap.min.css') }}" 
+    rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="{{ url_for('static',filename='css/portfolio-item.css') }}" 
+    rel="stylesheet">
+    
+    <!-- Custom Fonts -->
+    <link href='https://fonts.googleapis.com/css?family=Raleway:400,600' rel='stylesheet' 
+    type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600' 
+    rel='stylesheet' type='text/css'>
+    
+    <link href="{{ url_for('static',filename='css/d3.slider.css') }}" rel="stylesheet">
+    
+    <!-- Bokeh JS and CSS -->
+    <link rel="stylesheet" href="http://cdn.pydata.org/bokeh/release/bokeh-0.11.1.min.css" 
+    type="text/css" />
+    <script type="text/javascript" 
+    src="http://cdn.pydata.org/bokeh/release/bokeh-0.11.1.min.js"></script>
+
+    {{ script | safe }}
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">Home</a>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li>
+                        <a href="#">About</a>
+                    </li>
+                    <li>
+                        <a href="#">Services</a>
+                    </li>
+                    <li>
+                        <a href="#">Contact</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
+
+    <!-- Page Content -->
+    <div class="container">
+
+        <!-- Portfolio Item Heading -->
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">U.S. Baby Names
+                    <small>Search by popularity</small>
+                </h1>
+            </div>
+        </div>
+        <!-- /.row -->
+
+        <!-- Portfolio Item Row -->
+        <div class="row">
+
+            <div class="col-md-8">
+<!--               <div class="bokeh"> -->
+                {{ div | safe }}
+<!--               </div> -->
+                <div class="colorcode">Color coding:&nbsp;&nbsp;
+                <span id="female">Female</span>&nbsp;&nbsp;
+                <span id="male">Male</span>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <h3>Project Description</h3>
+                <p>Often times, parents want to consider the popularity of a given 
+                name when deciding what to name their child. Parents may want 
+                an uncommon name or perhaps something that appears more frequently.</p>
+                <p>This project provides a method to scan through all U.S. 
+                baby names back to the year 1880 (based on social security registration)     
+                to identify names with the least, most and somewhere-in-between 
+                popularity.</p>
+                <p><b><i>Use the controls below to filter names based on time, 
+                gender, and popularity.</i></b></p>
+                <hr>
+<!-- 
+                <h3>Project Details</h3>
+                <ul>
+                    <li>Lorem Ipsum</li>
+                    <li>Dolor Sit Amet</li>
+                    <li>Consectetur</li>
+                    <li>Adipiscing Elit</li>
+                </ul>
+ -->
+                
+                <form role="form" method="post" action="index" class="form-horizontal">
+                <div class="form-group text-center">
+                    <label>Start Year: <input type="number" class="form-control"
+                    id="slider3textmin" name="earliest" value="{{ earliest }}"></label>
+                    &nbsp;&nbsp;&nbsp;
+                    <label>End Year: <input type="number" class="form-control"
+                    id="slider3textmax" name="latest" value="{{ latest }}"></label>
+                </div>
+                <div class="form-group">
+                  <div id="slider3" style="margin: 24px;"></div>
+                  <div id="bar"></div>
+                </div>
+                <div class="form-group">
+                <label for="gender">Gender: </label>
+                  <select id="gender" name="gender" class="form-control">
+                    {% for g in glist %}
+                      {% if g[0]==gcheck %}
+                        <option value="{{ g[0] }}" selected>{{ g[1] }}</option>
+                      {% else %}
+                        <option value="{{ g[0] }}">{{ g[1] }}</option>
+                      {% endif %}
+                    {% endfor %}
+                  </select>
+                </div>
+                <div class="form-group">
+                <label for="popularity">Popularity percentile: </label>
+                  <select id="popularity" name="popularity" class="form-control">
+                    {% for p in poplist %}
+                      {% if p[0]==pcheck %}
+                        <option value="{{ p[0] }}" selected>{{ p[1] }}</option>
+                      {% else %}
+                        <option value="{{ p[0] }}">{{ p[1] }}</option>
+                      {% endif %}
+                    {% endfor %}
+                  </select>
+                </div>
+                <div class="form-group text-center">
+                  <label>Minimum name count: 
+                  <a href="#" data-toggle="popover" title="Minimum name count" 
+                  data-content="<p>This value sets a lower-bound on names to be included 
+                  in the results.</p><p>It has no effect on highly popular names but a 
+                  large effect on low popularity names.</p><p>Its effect is also strongly 
+                  dependent on the number of years in the range.</p>">
+                  <span class="glyphicon glyphicon-question-sign"></span></a>
+                  <input type="number" name="mincount" min="100" max="10000"
+                  step="100" value="{{ mincount }}" class="form-control"></label>
+                  &nbsp;&nbsp;&nbsp;
+                  <label>Names to view:
+                  <input type="number" name="viewsize" min="5" max="20" 
+                  value="{{ viewsize }}" class="form-control">
+                  </label>&nbsp;&nbsp;&nbsp;
+                </div>
+                <div class="form-group text-center">
+                  <button class="btn btn-primary btn-md" id="grabjson">Submit</button>
+                </div>
+                </form>
+            </div>
+
+        </div>
+        <!-- /.row -->
+
+        <!-- Related Projects Row -->
+<!-- 
+        <div class="row">
+
+            <div class="col-lg-12">
+                <h3 class="page-header">Related Projects</h3>
+            </div>
+
+            <div class="col-sm-3 col-xs-6">
+                <a href="#">
+                    <img class="img-responsive portfolio-item" src="http://placehold.it/500x300" alt="">
+                </a>
+            </div>
+
+            <div class="col-sm-3 col-xs-6">
+                <a href="#">
+                    <img class="img-responsive portfolio-item" src="http://placehold.it/500x300" alt="">
+                </a>
+            </div>
+
+            <div class="col-sm-3 col-xs-6">
+                <a href="#">
+                    <img class="img-responsive portfolio-item" src="http://placehold.it/500x300" alt="">
+                </a>
+            </div>
+
+            <div class="col-sm-3 col-xs-6">
+                <a href="#">
+                    <img class="img-responsive portfolio-item" src="http://placehold.it/500x300" alt="">
+                </a>
+            </div>
+
+        </div>
+ -->
+        <!-- /.row -->
+
+        <hr>
+
+        <!-- Footer -->
+        <footer>
+            <div class="row">
+                <div class="col-lg-12">
+                    <p>Last Updated: {{ updated }}</p>
+                </div>
+            </div>
+            <!-- /.row -->
+        </footer>
+
+    </div>
+    <!-- /.container -->
+
+    <!-- jQuery -->
+    <script src="{{ url_for('static',filename='js/jquery.js') }}"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="{{ url_for('static',filename='js/bootstrap.min.js') }}"></script>
+    
+    <!-- JavaScript for d3 and slider -->
+    <script src="http://d3js.org/d3.v3.min.js"></script>
+    <script src="{{ url_for('static',filename='js/d3.slider.js') }}"></script>
+    
+    <!-- JavaScript -->
+    <script type="text/javascript">
+        // for slider
+        d3.select('#slider3').call(d3.slider().axis(true)
+                    .value([{{ earliest }}, {{ latest }}])
+                    .step(1)
+                    .min(1880).max(2014)
+                    .on("slide", function(evt, value) {
+                          d3.select('#slider3textmin').attr("value", value[ 0 ]);
+                          d3.select('#slider3textmax').attr("value", value[ 1 ]);
+       }));
+       
+       // include values for earliest and latest when form is submitted
+       var early = $('#slider3textmin').attr("value");
+       var late = $('#slider3textmax').attr("value");
+       var years = early+late;
+//        $('#grabjson').click( function() {$.post( "/index", { javascript_data:years });} );
+//        $.post( "/index", { javascript_data:years });
+       
+       // jQuery for bootstrap popover function
+       $(document).ready(function(){
+            $('[data-toggle="popover"]').popover({html : true});   
+        });
+    </script>
+
+</body>
+
+</html>
