@@ -3,7 +3,7 @@ import numpy as np
 import pandas as pd
 import operator, os, datetime, json
 from bokeh.plotting import figure, output_file, save, show, ColumnDataSource
-from bokeh.models import HoverTool, OpenURL, TapTool
+from bokeh.models import HoverTool, NumeralTickFormatter
 from bokeh.resources import CDN
 from bokeh.embed import components, autoload_static
 
@@ -153,6 +153,7 @@ def index():
     p.yaxis.major_tick_line_color = None
     p.yaxis.minor_tick_line_color = None
     p.yaxis.major_label_text_color = None
+    p.xaxis[0].formatter = NumeralTickFormatter(format='0,0')
 
     p.responsive = True
 

@@ -57,11 +57,12 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="#">Home</a>
+                <a class="navbar-brand" href="http://dbricare.github.io">Portfolio Home</a>
             </div>
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
+<!-- 
                     <li>
                         <a href="#">About</a>
                     </li>
@@ -71,6 +72,7 @@
                     <li>
                         <a href="#">Contact</a>
                     </li>
+ -->
                 </ul>
             </div>
             <!-- /.navbar-collapse -->
@@ -101,18 +103,18 @@
                 <div class="colorcode">Color coding:&nbsp;&nbsp;
                 <span id="female">Female</span>&nbsp;&nbsp;
                 <span id="male">Male</span>
+                <p>Data downloaded from <a href="http://www.kaggle.com/datasets">Kaggle</a>.</p>
                 </div>
             </div>
 
             <div class="col-md-4">
                 <h3>Project Description</h3>
-                <p>Often times, parents want to consider the popularity of a given 
-                name when deciding what to name their child. Parents may want 
-                an uncommon name or perhaps something that appears more frequently.</p>
-                <p>This project provides a method to scan through all U.S. 
-                baby names back to the year 1880 (based on social security registration)     
-                to identify names with the least, most and somewhere-in-between 
-                popularity.</p>
+                <p>Sometimes parents want to consider the popularity of a given 
+                name when deciding on one for their child. An uncommon name may be 
+                more preferred or perhaps one that appears more frequently.</p>
+                <p>This project scans all U.S. baby names from the year 1880 to 2014
+                (according to social security registration) to identify names with the 
+                least, most and somewhere-in-between popularity.</p>
                 <p><b><i>Use the controls below to filter names based on time, 
                 gender, and popularity.</i></b></p>
                 <hr>
@@ -151,7 +153,10 @@
                   </select>
                 </div>
                 <div class="form-group">
-                <label for="popularity">Popularity percentile: </label>
+                <label for="popularity">Desired popularity: </label>
+                  <a href="#" data-toggle="popover" title="Desired popularity" 
+                  data-content="<p>This option returns names that appear at the chosen popularity.</p><p>For example, <b><i>Top 10%</i></b> returns the names at 90% of the maximum popularity.<p>">
+                  <span class="glyphicon glyphicon-question-sign"></span></a>
                   <select id="popularity" name="popularity" class="form-control">
                     {% for p in poplist %}
                       {% if p[0]==pcheck %}
